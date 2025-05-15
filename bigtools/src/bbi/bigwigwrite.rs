@@ -396,6 +396,7 @@ async fn process_val_zoom(
     }
 }
 
+#[derive(Debug)]
 struct BigWigInvalidInput(String);
 
 impl From<BigWigInvalidInput> for ProcessDataError {
@@ -639,7 +640,12 @@ impl BBIDataProcessor for BigWigNoZoomsProcess {
             ftx,
             *chrom_id,
         )
-        .await?;
+        .await.map_err(|e| {
+            // add context about which chromosome, or values involved
+            panic!("Error {e:?}\nFailed processing chromosome '{}' at length {}",
+                chrom, length
+            )
+        });
 
         for zoom in zoom_counts {
             if current_val.start as u64 >= zoom.current_end {
