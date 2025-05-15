@@ -865,6 +865,7 @@ pub(crate) fn write_vals<
 
     vals_iter.process_to_bbi(&runtime, &mut do_read, &mut advance)?;
 
+    eprintln!("Dropping send now!");
     drop(send);
 
     let summary_complete = summary.unwrap_or(Summary {
@@ -1010,6 +1011,7 @@ pub(crate) fn write_vals_no_zoom<
 
     vals_iter.process_to_bbi(&runtime, &mut do_read, &mut advance)?;
 
+    eprinln!("Dropping send now 2");
     drop(send);
 
     let summary_complete = summary.unwrap_or(Summary {
